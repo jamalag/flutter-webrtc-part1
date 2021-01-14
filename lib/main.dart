@@ -67,8 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     _localStream = await navigator.getUserMedia(mediaConstraints);
 
-    _localRenderer.srcObject = _localStream; 
-    // _localRenderer.objectFit = RTCVideoViewObjectFit.RTCVideoViewObjectFitCover;
+    _localRenderer.srcObject = _localStream;
   }
 
   @override
