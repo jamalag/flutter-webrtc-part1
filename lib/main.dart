@@ -31,9 +31,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _localRenderer = new RTCVideoRenderer();
-
+  MediaStream _localStream; 
   @override
   dispose() {
+    _localStream.dispose();
     _localRenderer.dispose();
     super.dispose();
   }
@@ -64,10 +65,14 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     };
 
-    MediaStream stream = await navigator.getUserMedia(mediaConstraints);
+    _localStream = await navigator.getUserMedia(mediaConstraints);
 
+<<<<<<< HEAD
     _localRenderer.srcObject = stream;
     // _localRenderer.objectFit = RTCVideoViewObjectFit.RTCVideoViewObjectFitCover;
+=======
+    _localRenderer.srcObject = _localStream;
+>>>>>>> 5317cf179dc277b325af15fc587b3e95865ec240
   }
 
   @override
