@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_webrtc/webrtc.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 void main() {
   runApp(MyApp());
@@ -53,13 +53,21 @@ class _MyHomePageState extends State<MyHomePage> {
     final Map<String, dynamic> mediaConstraints = {
       'audio': false,
       'video': {
+        'mandatory': {
+          'minWidth':
+              '1280', // Provide your own width, height and frame rate here
+          'minHeight': '720',
+          'minFrameRate': '30',
+        },
         'facingMode': 'user',
+        'optional': [],
       },
     };
 
     MediaStream stream = await navigator.getUserMedia(mediaConstraints);
 
     _localRenderer.srcObject = stream;
+    // _localRenderer.objectFit = RTCVideoViewObjectFit.RTCVideoViewObjectFitCover;
   }
 
   @override
@@ -68,20 +76,31 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
-        child: new Stack(
-          children: <Widget>[
-            new Positioned(
-              top: 0.0,
-              right: 0.0,
-              left: 0.0,
-              bottom: 0.0,
-              child: new Container(
-                child: new RTCVideoView(_localRenderer)
-              ),
+      // body: Container(
+      //   child: new Stack(
+      //     children: <Widget>[
+      //       new Positioned(
+      //         top: 0.0,
+      //         right: 0.0,
+      //         left: 0.0,
+      //         bottom: 0.0,
+      //         child: new Container(child: new RTCVideoView(_localRenderer)),
+      //       ),
+      //     ],
+      //   ),
+      // ),
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          return Center(
+            child: Container(
+              margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: RTCVideoView(_localRenderer, mirror: true),
+              decoration: BoxDecoration(color: Colors.black54),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
